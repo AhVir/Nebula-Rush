@@ -74,6 +74,31 @@ class Enemy{
   }
 }
 
+// Particle Class
+class Particle{
+  constructor(x, y, radius, color, velocity){
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.velocity = velocity;
+  }
+
+  draw_particle(){
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+    context.fillStyle = this.color;
+    context.fill();
+  }
+
+  update_particle(){
+    this.draw_particle();
+    
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+  }
+}
+
 // Main Player variables
 const x_mainPlayer = canvas.width/2;
 const y_mainPlayer = canvas.height/2;
@@ -86,6 +111,7 @@ mainPlayer.draw();
 // Arrays:
 const projectiles = [];
 const enemies = [];
+const particles = [];
 
 
 let animationID
@@ -96,6 +122,11 @@ function animate(){
   context.fillStyle = "rgba(0, 0, 0, 0.1)"; //rgba->(r, g, b, alpha), that alpha making the whole fade effect, daayyyyyyaam!!
   context.fillRect(0, 0, canvas.width, canvas.height);
   mainPlayer.draw();
+
+
+  particles.forEach((particle) => {
+    particle.update_particle();
+  });
   
   projectiles.forEach((p, pIdx) => {
     p.update_projectile();
@@ -130,6 +161,14 @@ function animate(){
 //      const dist = Math.hypot(p.x - e.x, p.y - e.y);
 
       if(dist - p.radius - e.radius < 1){
+        // pushing new particles, when collision happens
+        for(let i = 0; i<10; i++){
+          particles.push(new Particle(p.x, p.y, 3, e.color, {
+            x: Math.random() - 0.5,
+            y: Math.random() - 0.5
+          }))
+        }
+
         if(e.radius - 10 > 5){
           gsap.to(e, {
             radius: e.radius - 10
