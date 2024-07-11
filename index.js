@@ -160,7 +160,8 @@ function spawn_enemies(){
       yEnemy = Math.random() < 0.5 ? 0 - radiusEnemy : canvas.height + radiusEnemy;
     }
 
-    const colorEnemy = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+//    const colorEnemy = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+    const colorEnemy = `hsl(${Math.random()*360}, 50%, 50%)` //hsl(hue, saturation, lightness) & hue can be between 0 to 360
 
     //angle towards the Main Player
     const angle = Math.atan2(y_mainPlayer - yEnemy, x_mainPlayer - xEnemy);
