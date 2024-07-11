@@ -75,6 +75,8 @@ class Enemy{
 }
 
 // Particle Class
+
+const particleFriction = .99;  //friction value for particles
 class Particle{
   constructor(x, y, radius, color, velocity){
     this.x = x;
@@ -82,20 +84,28 @@ class Particle{
     this.radius = radius;
     this.color = color;
     this.velocity = velocity;
+    this.alpha = 1;
   }
 
   draw_particle(){
+    context.save();
+    context.globalAlpha = this.alpha;
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
     context.fillStyle = this.color;
     context.fill();
+    context.restore();
   }
 
   update_particle(){
     this.draw_particle();
+    // applying friction
+    this.velocity.x *= particleFriction;
+    this.velocity.y *= particleFriction;
     
     this.x += this.velocity.x;
     this.y += this.velocity.y;
+    this.alpha -= 0.01;
   }
 }
 
@@ -124,8 +134,13 @@ function animate(){
   mainPlayer.draw();
 
 
-  particles.forEach((particle) => {
-    particle.update_particle();
+  particles.forEach((particle, particleIdx) => {
+    if(particle.alpha <= 0){
+      particles.splice(particleIdx, 1);
+    }
+    else{
+      particle.update_particle();
+    }
   });
   
   projectiles.forEach((p, pIdx) => {
@@ -162,10 +177,10 @@ function animate(){
 
       if(dist - p.radius - e.radius < 1){
         // pushing new particles, when collision happens
-        for(let i = 0; i<10; i++){
-          particles.push(new Particle(p.x, p.y, 3, e.color, {
-            x: Math.random() - 0.5,
-            y: Math.random() - 0.5
+        for(let i = 0; i<e.radius * 2; i++){
+          particles.push(new Particle(p.x, p.y, Math.random()*2, e.color, {
+            x: (Math.random() - 0.5) * (Math.random()*6),
+            y: (Math.random() - 0.5) * (Math.random()*6)
           }))
         }
 
