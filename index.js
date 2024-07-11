@@ -1,3 +1,5 @@
+console.log(gsap)
+
 const canvas = document.querySelector('canvas');
 
 
@@ -128,18 +130,24 @@ function animate(){
 //      const dist = Math.hypot(p.x - e.x, p.y - e.y);
 
       if(dist - p.radius - e.radius < 1){
-        e.radius -= 5;
-        if(e.radius < 6){
+        if(e.radius - 10 > 5){
+          gsap.to(e, {
+            radius: e.radius - 10
+          })
           setTimeout(() => {
-            enemies.splice(eIdx, 1);
+            projectiles.splice(pIdx, 1);
           }, 0);
         }
-        projectiles.splice(pIdx, 1);
+        else{
+          setTimeout(() => {
+            enemies.splice(eIdx, 1);
+            projectiles.splice(pIdx, 1);
+          }, 0);
+        }
       }
     });
 
     // enemy-main player collision
-
     const mainPlayerDist = Math.hypot(x_mainPlayer - e.x, y_mainPlayer - e.y);
     if(mainPlayerDist - radius_mainPlayer - e.radius < 1){
       console.log("Game ended!")
