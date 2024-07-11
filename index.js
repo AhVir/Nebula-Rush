@@ -1,9 +1,8 @@
-console.log(gsap)
-
 const canvas = document.querySelector('canvas');
-
-
 const context = canvas.getContext("2d");
+
+const scoreCard = document.querySelector("#scorenum");
+console.log(scoreCard);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -75,7 +74,6 @@ class Enemy{
 }
 
 // Particle Class
-
 const particleFriction = .99;  //friction value for particles
 class Particle{
   constructor(x, y, radius, color, velocity){
@@ -114,6 +112,7 @@ const x_mainPlayer = canvas.width/2;
 const y_mainPlayer = canvas.height/2;
 const radius_mainPlayer = 10;
 const color_mainPlayer = "white";
+let score = 0;
 
 const mainPlayer = new Player(x_mainPlayer, y_mainPlayer, radius_mainPlayer, color_mainPlayer);
 mainPlayer.draw();
@@ -166,7 +165,7 @@ function animate(){
        e.y + e.radius < 0 || e.y - e.radius > canvas.height){
       setTimeout(() => {
         enemies.splice(eIdx, 1);
-        
+   text-xl      
       }, 0);
     }
 
@@ -191,12 +190,20 @@ function animate(){
           setTimeout(() => {
             projectiles.splice(pIdx, 1);
           }, 0);
+
+          // adding score of 100 for each hit to enemies
+          score += 100;
+          scoreCard.innerHTML = score;
         }
         else{
           setTimeout(() => {
             enemies.splice(eIdx, 1);
             projectiles.splice(pIdx, 1);
           }, 0);
+
+          // adding score of 250 for removing enemy from the screen 
+          score += 250;
+          scoreCard.innerHTML = score;
         }
       }
     });
@@ -246,8 +253,8 @@ window.addEventListener('click', (mouseEvent) => {
   const angle = Math.atan2(mouseEvent.clientY - y_mainPlayer, mouseEvent.clientX - x_mainPlayer);
   console.log("Angle: ", angle);
 
-  const x_projectile = Math.cos(angle) * 5;
-  const y_projectile = Math.sin(angle) * 5;
+  const x_projectile = Math.cos(angle) * 6;
+  const y_projectile = Math.sin(angle) * 6;
 
   projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "white", {x: x_projectile, y: y_projectile}));
 
