@@ -4,6 +4,7 @@ const context = canvas.getContext("2d");
 const scoreCard = document.querySelector("#scorenum");
 const startButton = document.querySelector("#startBtn");
 const startMenu = document.querySelector("#startMenu");
+const menuScore = document.querySelector("#menuScore");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -214,6 +215,9 @@ function animate(){
     if(mainPlayerDist - radius_mainPlayer - e.radius < 1){
       console.log("Game ended!")
       window.cancelAnimationFrame(animationID);
+      menuScore.innerHTML = score;
+      startButton.innerHTML = "Restart";
+      startMenu.style.display = 'flex';
     }
   });
 }
