@@ -90,7 +90,8 @@ let animationID
 
 function animate(){
   animationID = window.requestAnimationFrame(animate);
-  context.fillStyle = "black";
+  //context.fillStyle = "black";
+  context.fillStyle = "rgba(0, 0, 0, 0.1)";
   context.fillRect(0, 0, canvas.width, canvas.height);
   mainPlayer.draw();
   
