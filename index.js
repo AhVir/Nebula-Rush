@@ -86,9 +86,12 @@ const projectiles = [];
 const enemies = [];
 
 
+let animationID
+
 function animate(){
-  window.requestAnimationFrame(animate);
+  animationID = window.requestAnimationFrame(animate);
   context.clearRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "black";
   mainPlayer.draw();
   
   projectiles.forEach((p, pIdx) => {
@@ -118,7 +121,7 @@ function animate(){
       }, 0);
     }
 
-
+    // enemy-projectile collision
     projectiles.forEach((p, pIdx) => {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
 //      const dist = Math.hypot(p.x - e.x, p.y - e.y);
@@ -130,6 +133,13 @@ function animate(){
         }, 0);
       }
     });
+
+    // enemy-main player collision
+
+    const mainPlayerDist = Math.hypot(x_mainPlayer - e.x, y_mainPlayer - e.y);
+    if(mainPlayerDist - radius_mainPlayer - e.radius < 1){
+      window.cancelAnimationFrame(animationID);
+    }
   });
 }
 
@@ -171,7 +181,7 @@ window.addEventListener('click', (mouseEvent) => {
   const x_projectile = Math.cos(angle);
   const y_projectile = Math.sin(angle);
 
-  projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "black", {x: x_projectile, y: y_projectile}));
+  projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "white", {x: x_projectile, y: y_projectile}));
 
   console.log(projectiles);
   console.log(enemies);
