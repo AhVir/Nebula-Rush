@@ -2,7 +2,8 @@ const canvas = document.querySelector('canvas');
 const context = canvas.getContext("2d");
 
 const scoreCard = document.querySelector("#scorenum");
-console.log(scoreCard);
+const startButton = document.querySelector("#startBtn");
+const startMenu = document.querySelector("#startMenu");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -263,5 +264,9 @@ window.addEventListener('click', (mouseEvent) => {
 });
 
 
-spawn_enemies();
-animate();
+startButton.addEventListener('click', () => {
+  console.log("StartBtn clicked");
+  spawn_enemies();
+  animate();
+  startMenu.style.display = 'none';
+});
