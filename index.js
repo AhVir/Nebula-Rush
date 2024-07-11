@@ -117,12 +117,17 @@ const color_mainPlayer = "white";
 let score = 0;
 
 const mainPlayer = new Player(x_mainPlayer, y_mainPlayer, radius_mainPlayer, color_mainPlayer);
-mainPlayer.draw();
 
 // Arrays:
-const projectiles = [];
-const enemies = [];
-const particles = [];
+let projectiles;
+let enemies;
+let particles;
+
+function restartArrays(){
+  projectiles = [];
+  enemies = [];
+  particles = [];
+}
 
 
 let animationID
@@ -269,7 +274,12 @@ window.addEventListener('click', (mouseEvent) => {
 
 
 startButton.addEventListener('click', () => {
-  console.log("StartBtn clicked");
+  this.restartArrays();
+  
+  //score reset in ScoreCard
+  score = 0;
+  scoreCard.innerHTML = 0;
+
   spawn_enemies();
   animate();
   startMenu.style.display = 'none';
