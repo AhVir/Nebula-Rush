@@ -128,10 +128,13 @@ function animate(){
 //      const dist = Math.hypot(p.x - e.x, p.y - e.y);
 
       if(dist - p.radius - e.radius < 1){
-        setTimeout(() => {
-          projectiles.splice(pIdx, 1);
-          enemies.splice(eIdx, 1);
-        }, 0);
+        e.radius -= 5;
+        if(e.radius < 6){
+          setTimeout(() => {
+            enemies.splice(eIdx, 1);
+          }, 0);
+        }
+        projectiles.splice(pIdx, 1);
       }
     });
 
