@@ -107,18 +107,34 @@ function animate(){
     }
   });
 
-  enemies.forEach((e) => {
+  enemies.forEach((e, eIdx) => {
     e.update_enemy();
+
+    if(e.x + e.radius < 0 || e.x - e.radius > canvas.width ||
+       e.y + e.radius < 0 || e.y - e.radius > canvas.height){
+      setTimeout(() => {
+        enemies.splice(eIdx, 1);
+        
+      }, 0);
+    }
   });
 }
 
 
 function spawn_enemies(){
   setInterval(() => {
-    // enemy constrants
-    const xEnemy = 100;
-    const yEnemy = 100;
-    const radiusEnemy = 30;
+    const radiusEnemy = Math.random() * (30-4) + 4;
+    let xEnemy
+    let yEnemy
+    if(Math.random() < 0.5){
+      xEnemy = Math.random() < 0.5 ? 0 - radiusEnemy : canvas.width + radiusEnemy;
+      yEnemy = Math.random() * canvas.height;
+    } 
+    else{
+      xEnemy = Math.random() * canvas.width;
+      yEnemy = Math.random() < 0.5 ? 0 - radiusEnemy : canvas.height + radiusEnemy;
+    }
+
     const colorEnemy = "pink";
 
     //angle towards the Main Player
@@ -130,7 +146,7 @@ function spawn_enemies(){
     }
 
     enemies.push(new Enemy(xEnemy, yEnemy, radiusEnemy, colorEnemy, velocity))
-  }, 2000);
+  }, 1000);
 }
 
 
