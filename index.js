@@ -47,6 +47,31 @@ class Projectile {
   }
 }
 
+// Enemy Class
+class Enemy{
+  constructor(x, y, radius, color, velocity){
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.velocity = velocity;
+  }
+
+  draw_enemy(){
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+    context.fillStyle = this.color;
+    context.fill();
+  }
+
+  update_enemy(){
+    this.draw_enemy();
+    
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+  }
+}
+
 // Main Player variables
 const x_mainPlayer = canvas.width/2;
 const y_mainPlayer = canvas.height/2;
@@ -56,8 +81,9 @@ const color_mainPlayer = "blue";
 const mainPlayer = new Player(x_mainPlayer, y_mainPlayer, radius_mainPlayer, color_mainPlayer);
 mainPlayer.draw();
 
-// Projectile array:
+// Arrays:
 const projectiles = [];
+const enemies = [];
 
 
 function animate(){
@@ -80,6 +106,31 @@ function animate(){
       }, 0);
     }
   });
+
+  enemies.forEach((e) => {
+    e.update_enemy();
+  });
+}
+
+
+function spawn_enemies(){
+  setInterval(() => {
+    // enemy constrants
+    const xEnemy = 100;
+    const yEnemy = 100;
+    const radiusEnemy = 30;
+    const colorEnemy = "pink";
+
+    //angle towards the Main Player
+    const angle = Math.atan2(y_mainPlayer - yEnemy, x_mainPlayer - xEnemy);
+
+    const velocity = {
+      x: Math.cos(angle),
+      y: Math.sin(angle)
+    }
+
+    enemies.push(new Enemy(xEnemy, yEnemy, radiusEnemy, colorEnemy, velocity))
+  }, 2000);
 }
 
 
@@ -94,7 +145,9 @@ window.addEventListener('click', (mouseEvent) => {
   projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "black", {x: x_projectile, y: y_projectile}));
 
   console.log(projectiles);
+  console.log(enemies);
 });
 
 
+spawn_enemies();
 animate();
