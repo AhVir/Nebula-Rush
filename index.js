@@ -90,8 +90,8 @@ let animationID
 
 function animate(){
   animationID = window.requestAnimationFrame(animate);
-  context.clearRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "black";
+  context.fillRect(0, 0, canvas.width, canvas.height);
   mainPlayer.draw();
   
   projectiles.forEach((p, pIdx) => {
