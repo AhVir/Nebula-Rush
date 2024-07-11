@@ -75,8 +75,8 @@ class Enemy{
 // Main Player variables
 const x_mainPlayer = canvas.width/2;
 const y_mainPlayer = canvas.height/2;
-const radius_mainPlayer = 30;
-const color_mainPlayer = "blue";
+const radius_mainPlayer = 10;
+const color_mainPlayer = "white";
 
 const mainPlayer = new Player(x_mainPlayer, y_mainPlayer, radius_mainPlayer, color_mainPlayer);
 mainPlayer.draw();
@@ -91,7 +91,7 @@ let animationID
 function animate(){
   animationID = window.requestAnimationFrame(animate);
   //context.fillStyle = "black";
-  context.fillStyle = "rgba(0, 0, 0, 0.1)";
+  context.fillStyle = "rgba(0, 0, 0, 0.1)"; //rgba->(r, g, b, alpha), that alpha making the whole fade effect, daayyyyyyaam!!
   context.fillRect(0, 0, canvas.width, canvas.height);
   mainPlayer.draw();
   
@@ -160,7 +160,7 @@ function spawn_enemies(){
       yEnemy = Math.random() < 0.5 ? 0 - radiusEnemy : canvas.height + radiusEnemy;
     }
 
-    const colorEnemy = "pink";
+    const colorEnemy = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
 
     //angle towards the Main Player
     const angle = Math.atan2(y_mainPlayer - yEnemy, x_mainPlayer - xEnemy);
@@ -180,8 +180,8 @@ window.addEventListener('click', (mouseEvent) => {
   const angle = Math.atan2(mouseEvent.clientY - y_mainPlayer, mouseEvent.clientX - x_mainPlayer);
   console.log("Angle: ", angle);
 
-  const x_projectile = Math.cos(angle);
-  const y_projectile = Math.sin(angle);
+  const x_projectile = Math.cos(angle) * 5;
+  const y_projectile = Math.sin(angle) * 5;
 
   projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "white", {x: x_projectile, y: y_projectile}));
 
