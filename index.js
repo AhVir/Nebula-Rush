@@ -138,6 +138,7 @@ function animate(){
 
     const mainPlayerDist = Math.hypot(x_mainPlayer - e.x, y_mainPlayer - e.y);
     if(mainPlayerDist - radius_mainPlayer - e.radius < 1){
+      console.log("Game ended!")
       window.cancelAnimationFrame(animationID);
     }
   });
