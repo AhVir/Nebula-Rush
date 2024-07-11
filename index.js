@@ -1,15 +1,12 @@
 const canvas = document.querySelector('canvas');
 
-// selecting the canvas context
-const ctx = canvas.getContext('2d');
 
-canvas.width  = window.innerWidth
-canvas.height = window.innerHeight
+const context = canvas.getContext("2d");
 
-const x = canvas.width/2; 
-const y = canvas.height/2; 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Creating a class named Player
+//Player Class
 class Player{
   constructor(x, y, radius, color){
     this.x = x;
@@ -19,15 +16,15 @@ class Player{
   }
 
   draw(){
-    ctx.beginPath();
-    ctx.arc(x, y, this.radius, 0 * (Math.PI/180), 360 * (Math.PI/180), false);
-    ctx.fillStyle = this.color;
-    ctx.fill();  
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+    context.fillStyle = this.color;
+    context.fill(); 
   }
 }
 
-// Creating a class for Projectile
-class Projectile{
+//Projectile Class
+class Projectile {
   constructor(x, y, radius, color, velocity){
     this.x = x;
     this.y = y;
@@ -37,42 +34,67 @@ class Projectile{
   }
 
   draw_projectile(){
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-    ctx.fillStyle = this.color;
-    ctx.fill();
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+    context.fillStyle = this.color;
+    context.fill();
   }
 
-  update(){
+  update_projectile(){
     this.draw_projectile();
-
-    this.x =+ this.velocity.x;
-    this.y =+ this.velocity.y;
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
   }
 }
 
-const mainPlayer = new Player(100, 100, 30, "blue");
+// Main Player variables
+const x_mainPlayer = canvas.width/2;
+const y_mainPlayer = canvas.height/2;
+const radius_mainPlayer = 30;
+const color_mainPlayer = "blue";
 
-// projectiles array
+const mainPlayer = new Player(x_mainPlayer, y_mainPlayer, radius_mainPlayer, color_mainPlayer);
+mainPlayer.draw();
+
+// Projectile array:
 const projectiles = [];
 
-//Animation
+
 function animate(){
   window.requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
   mainPlayer.draw();
-  projectiles.forEach((p) => {
-    p.update();
-  })
+  
+  projectiles.forEach((p, pIdx) => {
+    p.update_projectile();
+
+//    if(((p.x-p.radius < 0) || (p.x-p.radius > canvas.width)) &&
+//      ((p.y-p.radius < 0) || (p.y-p.radius > canvas.height))){
+//      projectiles.splice(pIdx, 1);
+//    }
+    
+    if(p.x + p.radius < 0 || p.x - p.radius > canvas.width ||
+       p.y + p.radius < 0 || p.y - p.radius > canvas.height){
+      setTimeout(() => {
+        projectiles.splice(pIdx, 1);
+      }, 0);
+    }
+  });
 }
 
-// Event Listener
-window.addEventListener('click', (event) => {
-  const angle = Math.atan2(event.clientY - canvas.height/2, event.clientX - canvas.width/2);
 
+//Event Listener
+window.addEventListener('click', (mouseEvent) => {
+  const angle = Math.atan2(mouseEvent.clientY - y_mainPlayer, mouseEvent.clientX - x_mainPlayer);
   console.log("Angle: ", angle);
 
-  projectiles.push(new Projectile(canvas.width/2, canvas.height/2, 5, "red", {x: Math.cos(angle), y: Math.sin(angle)}))
-})
+  const x_projectile = Math.cos(angle);
+  const y_projectile = Math.sin(angle);
+
+  projectiles.push(new Projectile(x_mainPlayer, y_mainPlayer, 10, "black", {x: x_projectile, y: y_projectile}));
+
+  console.log(projectiles);
+});
+
 
 animate();
