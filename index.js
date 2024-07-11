@@ -117,6 +117,19 @@ function animate(){
         
       }, 0);
     }
+
+
+    projectiles.forEach((p, pIdx) => {
+      const dist = Math.hypot(e.x - p.x, e.y - p.y);
+//      const dist = Math.hypot(p.x - e.x, p.y - e.y);
+
+      if(dist - p.radius - e.radius < 1){
+        setTimeout(() => {
+          projectiles.splice(pIdx, 1);
+          enemies.splice(eIdx, 1);
+        }, 0);
+      }
+    });
   });
 }
 
