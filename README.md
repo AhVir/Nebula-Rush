@@ -14,11 +14,6 @@ A minimalist mouse-shooter where you blast asteroids before they crush you. No u
 - **Shoot** → Left Click  
 - **Goal** → Don’t die.  
 
-### **Why Play?**  
-- 60FPS canvas chaos  
-- Instant respawns (rage-friendly)  
-- Score = seconds alive *(so flex that high score)*  
-
 ### **Tech Stack**  
 - Vanilla JS + Canvas  
 - Hosted on GitHub Pages  
