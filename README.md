@@ -1,6 +1,6 @@
 # Nebula Rush 🔫☄️  
 
-**[PLAY NOW](https://ahvir.github.io/nebula-rush/)** *(It’s just point + shoot!)*  
+**[PLAY NOW](https://ahvir.github.io/Nebula-Rush/)** *(It’s just point + shoot!)*  
 
 A minimalist mouse-shooter where you blast asteroids before they crush you. No upgrades. No tutorials. Just **survival**.  
 
