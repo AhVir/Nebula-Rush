@@ -23,4 +23,4 @@ A minimalist mouse-shooter where you blast asteroids before they crush you. No u
 
 ---  
 
-**Tip:** Crank up the volume—sounds are *satisfying*. 
+**Tip:** Crank up the volume, although there is *no audio* available. 
